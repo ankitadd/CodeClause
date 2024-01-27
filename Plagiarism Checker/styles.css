@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 50px auto; /* Updated margin for vertical centering, and auto for horizontal centering */
+    /*background-color: #f8f8f8;*/
+    background: url('img1.jpg') center/cover no-repeat;
+    text-align: center; /* Center-align the content */
+}
+
+h1 {
+    color: #fff;
+}
+
+form {
+    display: inline-block;
+    text-align: left; /* Reset text alignment for the form */
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px; /* Updated margin for additional space */
+    width: 70%; /* Updated width for the form */
+    max-width: 800px; /* Added max-width for responsiveness */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+textarea,
+input[type="file"],
+button {
+    width: calc(100% - 20px); /* Updated width for input elements */
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#result {
+    margin: 50px auto; /* Updated margin for vertical centering, and auto for horizontal centering */
+    display: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 70%; /* Adjusted width for the result background */
+    max-width: 838px; /* Added max-width for responsiveness and to limit the width */
+    box-sizing: border-box;
+}
+
+
+#similarity {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Responsive Styles */
+
+@media (max-width: 800px) {
+    form {
+        margin-top: 20px; /* Adjusted margin for smaller screens */
+    }
+}

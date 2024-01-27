@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Plagiarism Checker</title>
+</head>
+
+<body>
+    <h1>Plagiarism Checker</h1>
+    <form id="plagiarismForm">
+        <label for="userInput">Enter your text:</label><br>
+        <textarea id="userInput" rows="6" cols="50" required></textarea><br>
+        <label for="document">Upload a document:</label>
+        <input type="file" id="document" accept=".txt, .docx"><br>
+        <button type="button" onclick="checkPlagiarism()">Check Plagiarism</button>
+    </form>
+
+    <div id="result">
+        <h2>Plagiarism Result</h2>
+        <p id="similarity"></p>
+    </div>
+    <script>
+        function checkPlagiarism() {
+            var userInput = document.getElementById("userInput").value;
+            var fileInput = document.getElementById("document");
+
+            if (userInput.trim() === "") {
+                alert("Please enter text for plagiarism check.");
+                return;
+            }
+
+            if (fileInput.files.length === 0) {
+                alert("Please upload a document for comparison.");
+                return;
+            }
+
+            var fileReader = new FileReader();
+            fileReader.onload = function(event) {
+                var documentContent = event.target.result;
+
+                var similarity = calculateSimilarity(userInput, documentContent);
+
+                displayResult(similarity);
+            };
+
+            fileReader.readAsText(fileInput.files[0]);
+        }
+
+        function calculateSimilarity(text1, text2) {
+            var longer = text1;
+            var shorter = text2;
+
+            if (text1.length < text2.length) {
+                longer = text2;
+                shorter = text1;
+            }
+
+            var longerLength = longer.length;
+            if (longerLength === 0) {
+                return 1.0;
+            }
+
+            return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+        }
+
+        function editDistance(s1, s2) {
+            s1 = s1.toLowerCase();
+            s2 = s2.toLowerCase();
+
+            var costs = new Array();
+            for (var i = 0; i <= s1.length; i++) {
+                var lastValue = i;
+                for (var j = 0; j <= s2.length; j++) {
+                    if (i === 0) {
+                        costs[j] = j;
+                    } else {
+                        if (j > 0) {
+                            var newValue = costs[j - 1];
+                            if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
+                                newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                            }
+                            costs[j - 1] = lastValue;
+                            lastValue = newValue;
+                        }
+                    }
+                }
+                if (i > 0) {
+                    costs[s2.length] = lastValue;
+                }
+            }
+            return costs[s2.length];
+        }
+
+        function displayResult(similarity) {
+            var resultDiv = document.getElementById("result");
+            var similarityParagraph = document.getElementById("similarity");
+
+            similarityParagraph.innerHTML = "Similarity: " + (similarity * 100).toFixed(2) + "%";
+            resultDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>
